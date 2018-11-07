@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: a
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://115.29.79.115:3306/wll_text
+    username: 51growup
+    password: zmz152653
+
+    jpa:
+      hibernate:
+        ddl-auto: update
+      show-sql: true
