@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -37,14 +38,15 @@ public class LoginController {
     /**
      * 增加一人
      *
-     * @param request
-     * @param response
-     * @param loginMsg
+     * @param request   :请求头
+     * @param response: 返回结果
+     * @param loginMsg  :请求参数
      * @return
      */
     @RequestMapping("/add")
-    public String addLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam("loginMsg") String loginMsg) {
+    public void addLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam("loginMsg") String loginMsg) {
         JSONObject jsonObject = null;
+        int result = 500;
         try {
             jsonObject = new JSONObject(loginMsg);
             String loginName = jsonObject.getString("login_name");
@@ -55,13 +57,54 @@ public class LoginController {
             login.setAge(age);
             login.setPassword(password);
             loginRepository.save(login);
+            JSONObject obj = new JSONObject();
+            obj.put("result", result);
+            PrintWriter writer = response.getWriter();
+            writer.print(obj.toString());
+            writer.flush();
+            writer.close();
             System.out.print("200");
-            return "200";
         } catch (Exception e) {
             e.printStackTrace();
+            result = 500;
             System.out.print("500");
-            return "500";
         }
     }
-    
+
+    /**
+     * 根据名字和密码确定唯一
+     *
+     * @param request
+     * @param response
+     * @param name
+     * @param password
+     */
+    @RequestMapping("/selectLogin")
+    public void selectLogin(HttpServletRequest request, HttpServletResponse response, String name, String password) {
+        try {
+            String result = "200";
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("result", request);
+            PrintWriter writer = response.getWriter();
+//            List<Login> byNameAAndPassword = loginRepository.findByNameAndPassword(name, password);
+//            if (byNameAAndPassword != null) {
+//                if (byNameAAndPassword.size() != 0) {
+//                    jsonObject.put("data", byNameAAndPassword);
+//                    writer.print(jsonObject.toString());
+//                } else {
+//                    result = "没有查询到结果";
+//                    jsonObject.put("result", result);
+//                    writer.print(jsonObject.toString());
+//                }
+//            } else {
+//                result = "没有查询到结果";
+//                jsonObject.put("result", result);
+//                writer.print(jsonObject.toString());
+//            }
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
