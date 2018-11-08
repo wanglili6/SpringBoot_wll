@@ -2,20 +2,22 @@ package com.wll.itdream.wll_sping.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Login {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
-    private String login_name;
+    private String loginname;
     private String password;
     private long age;
     private String sex;
     private String phone;
 
+
+    public Login() {
+    }
 
     public long getId() {
         return id;
@@ -25,13 +27,15 @@ public class Login {
         this.id = id;
     }
 
-    public String getLogin_name() {
-        return login_name;
+
+    public String getLoginname() {
+        return loginname;
     }
 
-    public void setLogin_name(String login_name) {
-        this.login_name = login_name;
+    public void setLoginname(String loginname) {
+        this.loginname = loginname;
     }
+
 
     public String getPassword() {
         return password;
