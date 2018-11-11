@@ -16,10 +16,7 @@ import java.util.List;
 import java.util.Spliterator;
 
 @Service
-public class LoginService {
-    @Autowired
-    private LoginRepository loginRepository;
-
+public interface LoginService {
     /**
      * 根据账号密码进行查询
      *
@@ -27,34 +24,8 @@ public class LoginService {
      * @param password
      * @return
      */
-    public List<Login> findByNameAndPassword(String name, String password) {
-        List<Login> loginList = loginRepository.findAll(new Specification() {
-            @Override
-            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (name != null && !name.equals("")) {
-                    predicates.add(criteriaBuilder.like(root.get("login_name").as(String.class), "%" + name + "%"));
-                } else {
-                    System.out.print("名称不能为空!");
-                    return null;
-                }
-                if (password != null && !password.equals("")) {
-                    predicates.add(criteriaBuilder.like(root.get("password").as(String.class), "%" + password + "%"));
-                } else {
-                    System.out.print("密码不能为空!");
-                    return null;
-                }
-                Predicate[] pre = new Predicate[predicates.size()];
-                criteriaQuery.where(predicates.toArray(pre));
-                return criteriaBuilder.and(predicates.toArray(pre));
-            }
-        });
-        return loginList;
+    public List<Login> findByNameAndPassword(String name, String password) ;
 
-    }
-
-    public List<Login> findName_password(String name, String password) {
-        return loginRepository.findByLoginnameAndPassword(name, password);
-    }
+    public List<Login> findName_password(String name, String password) ;
 
 }

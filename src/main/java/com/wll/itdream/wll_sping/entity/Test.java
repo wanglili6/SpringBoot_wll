@@ -3,8 +3,10 @@ package com.wll.itdream.wll_sping.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="abc")
 public class Test {
     @Id
     @GeneratedValue
